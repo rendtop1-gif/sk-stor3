@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SK Store</title>
 
 <style>
@@ -19,11 +18,13 @@ background:#090909;
 color:white;
 }
 
+/* HEADER */
 header{
 background:linear-gradient(135deg,#12001f,#250042);
 padding:20px;
 text-align:center;
 border-bottom:2px solid #8f42ff;
+position:relative;
 }
 
 .logo{
@@ -37,6 +38,20 @@ color:#ccc;
 margin-top:5px;
 }
 
+/* CART ICON */
+.cart-icon{
+position:absolute;
+top:15px;
+right:15px;
+background:#8f42ff;
+padding:10px 14px;
+border-radius:50px;
+cursor:pointer;
+font-weight:bold;
+box-shadow:0 0 10px #8f42ff;
+}
+
+/* BANNER */
 .banner{
 margin:20px;
 padding:20px;
@@ -46,11 +61,12 @@ border:1px solid #8f42ff;
 text-align:center;
 }
 
-.banner h2{
-color:#b06bff;
-margin-bottom:10px;
+.banner img{
+width:100%;
+border-radius:15px;
 }
 
+/* CATEGORIES */
 .categories{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -63,9 +79,15 @@ background:#171717;
 padding:15px;
 border-radius:15px;
 text-align:center;
-border:1px solid #2e2e2e;
+cursor:pointer;
+transition:0.2s;
 }
 
+.category:hover{
+background:#222;
+}
+
+/* PRODUCTS */
 .products{
 padding:20px;
 display:grid;
@@ -77,10 +99,11 @@ background:#171717;
 border-radius:20px;
 padding:15px;
 border:1px solid #2e2e2e;
+transition:0.2s;
 }
 
-.card h3{
-margin-bottom:10px;
+.card:hover{
+transform:scale(1.03);
 }
 
 .price{
@@ -99,99 +122,14 @@ border:none;
 color:white;
 border-radius:12px;
 font-weight:bold;
-}
-
-footer{
-padding:25px;
-text-align:center;
-color:#888;
-}
-.cart-icon{
-position:fixed;
-top:15px;
-right:15px;
-background:#8f42ff;
-padding:10px 14px;
-border-radius:50px;
 cursor:pointer;
-font-weight:bold;
-z-index:1000;
-box-shadow:0 0 10px #8f42ff;
-}
-.cart-icon{
-position:fixed;
-top:15px;
-right:15px;
-background:#8f42ff;
-padding:10px 14px;
-border-radius:50px;
-cursor:pointer;
-font-weight:bold;
-z-index:1000;
-box-shadow:0 0 12px #8f42ff;
-transition:0.2s;
-}
-
-.cart-icon:hover{
-transform:scale(1.1);
-}
-
-#cart-modal button{
-cursor:pointer;
-border:none;
-border-radius:8px;
-padding:5px;
-background:#8f42ff;
-color:white;
-}
-
-#cart-modal button:hover{
-opacity:0.8;
-}
-.category{
-cursor:pointer;
-transition:0.2s;
-}
-
-.category:hover{
-transform:scale(1.05);
-background:#222;
-}
-.category.active{
-background:#8f42ff;
-color:white;
-transform:scale(1.08);
-box-shadow:0 0 10px rgba(143,66,255,0.6);
-}
-.card{
-transition:0.25s;
-}
-
-.card:hover{
-transform:scale(1.03);
-box-shadow:0 0 15px rgba(143,66,255,0.4);
-}
-.card{
-opacity:0;
-transform:translateY(10px);
-animation:fadeIn 0.4s forwards;
-}
-
-@keyframes fadeIn{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-button{
-transition:0.2s;
 }
 
 button:hover{
-transform:scale(1.03);
-box-shadow:0 0 10px rgba(143,66,255,0.5);
+opacity:0.9;
 }
-/* затемнение */
+
+/* CART */
 #cart-overlay{
 position:fixed;
 top:0;
@@ -203,7 +141,6 @@ display:none;
 z-index:1000;
 }
 
-/* панель корзины */
 #cart-panel{
 position:fixed;
 top:0;
@@ -214,34 +151,26 @@ background:#171717;
 z-index:1001;
 padding:20px;
 transition:0.3s;
-box-shadow:-10px 0 20px rgba(0,0,0,0.5);
 }
 
-/* открыть */
 #cart-panel.open{
 right:0;
-}
-
-/* кнопки */
-#cart-panel button{
-width:100%;
-padding:10px;
-margin-top:10px;
-background:#8f42ff;
-border:none;
-color:white;
-border-radius:10px;
-cursor:pointer;
 }
 
 .cart-item{
 display:flex;
 justify-content:space-between;
-align-items:center;
 margin:10px 0;
 padding:10px;
 background:#222;
 border-radius:10px;
+}
+
+/* FOOTER */
+footer{
+padding:25px;
+text-align:center;
+color:#888;
 }
 </style>
 
@@ -251,180 +180,119 @@ border-radius:10px;
 
 <header>
 <div class="logo">SK STORE</div>
-<div class="cart-icon" onclick="toggleCart()">
+<div class="subtitle">Игровые товары Brawl Stars</div>
+
+<div class="cart-icon" onclick="openCart()">
 🛒 <span id="cart-counter">0</span>
 </div>
-<div class="subtitle">Игровые товары Brawl Stars</div>
 </header>
+
 <!-- CART -->
 <div id="cart-overlay" onclick="closeCart()"></div>
 
 <div id="cart-panel">
-
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <h2>🛒 Корзина</h2>
-    <button onclick="closeCart()" style="width:40px;">×</button>
-  </div>
+  <h2>🛒 Корзина</h2>
 
   <div id="cart-items"></div>
 
-  <h3 style="margin-top:15px;">
-    Итого: <span id="cart-total">0</span> ₽
-  </h3>
+  <h3>Итого: <span id="cart-total">0</span> ₽</h3>
 
-  <button onclick="alert('Оформление будет через Telegram')">
+  <button onclick="alert('Здесь будет оформление заказа')">
     Оформить заказ
   </button>
 
+  <button onclick="closeCart()">Закрыть</button>
 </div>
 
+<!-- BANNER -->
 <div class="banner">
-  <img src="https://github.com/user-attachments/assets/48ec96f9-f570-4809-88b2-b67adbc084c4" alt="SK Store Banner" style="
-    width:100%;
-    border-radius:20px;
-    display:block;
-  ">
+<img src="https://github.com/user-attachments/assets/48ec96f9-f570-4809-88b2-b67adbc084c4">
 </div>
 
-<div class="categories">
-
-<div class="category" onclick="filterProducts('all')">Все</div>
-
-<div class="category" onclick="filterProducts('popular')">Популярное</div>
-
-<div class="category" onclick="filterProducts('gems')">Гемы</div>
-
-<div class="category" onclick="filterProducts('passes')">Пропуски</div>
-
-<div class="category" onclick="filterProducts('resources')">Ресурсы</div>
-
-<div class="category" onclick="filterProducts('skins')">Скины</div>
-
-</div>
-
+<!-- PRODUCTS -->
 <div class="products">
 
-<!-- GEMS -->
-<div class="card" data-category="gems">
-  <h3>30 Gems</h3>
-  <div class="price">130 ₽</div>
-  <button onclick="addToCart('30 Gems',130)">В корзину</button>
+<div class="card">
+<h3>30 Gems</h3>
+<div class="price">130 ₽</div>
+<button onclick="addToCart('30 Gems',130)">В корзину</button>
 </div>
 
-<div class="card" data-category="gems">
-  <h3>80 Gems</h3>
-  <div class="price">250 ₽</div>
-  <button onclick="addToCart('80 Gems',250)">В корзину</button>
+<div class="card">
+<h3>80 Gems</h3>
+<div class="price">250 ₽</div>
+<button onclick="addToCart('80 Gems',250)">В корзину</button>
 </div>
 
-<div class="card" data-category="gems">
-  <h3>170 Gems</h3>
-  <div class="price">500 ₽</div>
-  <button onclick="addToCart('170 Gems',500)">В корзину</button>
+<div class="card">
+<h3>170 Gems</h3>
+<div class="price">500 ₽</div>
+<button onclick="addToCart('170 Gems',500)">В корзину</button>
 </div>
 
-<!-- PASSES -->
-<div class="card" data-category="passes">
-  <h3>Brawl Pass</h3>
-  <div class="price">300 ₽</div>
-  <button onclick="addToCart('Brawl Pass',300)">В корзину</button>
-</div>
-
-<div class="card" data-category="passes">
-  <h3>Brawl Pass Plus</h3>
-  <div class="price">650 ₽</div>
-  <button onclick="addToCart('Brawl Pass Plus',650)">В корзину</button>
+<div class="card">
+<h3>Brawl Pass</h3>
+<div class="price">300 ₽</div>
+<button onclick="addToCart('Brawl Pass',300)">В корзину</button>
 </div>
 
 </div>
 
 <footer>
-ООО "ТЪЕБАЛИ ДАЕДРИКА В ЖОПУ" © 2026
+SK Store © 2026
 </footer>
 
-</body>
 <script>
+
 let cart = [];
 
-function addToCart(name, price) {
-  let item = cart.find(i => i.name === name);
+function addToCart(name, price){
+let item = cart.find(i => i.name === name);
 
-  if (item) item.qty++;
-  else cart.push({ name, price, qty: 1 });
-
-  updateCart();
-  openCart();
-  toast("Добавлено в корзину");
+if(item){
+item.qty++;
+}else{
+cart.push({name, price, qty:1});
 }
 
-function openCart() {
-  document.getElementById("cart-overlay").style.display = "block";
-  document.getElementById("cart-panel").classList.add("open");
+updateCart();
 }
 
-function closeCart() {
-  document.getElementById("cart-overlay").style.display = "none";
-  document.getElementById("cart-panel").classList.remove("open");
+function openCart(){
+document.getElementById("cart-overlay").style.display="block";
+document.getElementById("cart-panel").classList.add("open");
 }
 
-function updateCart() {
-  let items = document.getElementById("cart-items");
-  let total = 0;
-  let count = 0;
-
-  items.innerHTML = "";
-
-  cart.forEach((item, index) => {
-    total += item.price * item.qty;
-    count += item.qty;
-
-    items.innerHTML += `
-      <div class="cart-item">
-        <div>
-          <b>${item.name}</b><br>
-          ${item.price * item.qty} ₽
-        </div>
-
-        <div style="display:flex;gap:5px;">
-          <button onclick="changeQty(${index},-1)" style="width:30px;">-</button>
-          <span>${item.qty}</span>
-          <button onclick="changeQty(${index},1)" style="width:30px;">+</button>
-          <button onclick="removeItem(${index})" style="background:red;width:30px;">×</button>
-        </div>
-      </div>
-    `;
-  });
-
-  document.getElementById("cart-total").innerText = total;
-  document.getElementById("cart-counter").innerText = count;
+function closeCart(){
+document.getElementById("cart-overlay").style.display="none";
+document.getElementById("cart-panel").classList.remove("open");
 }
 
-function changeQty(i, val) {
-  cart[i].qty += val;
-  if (cart[i].qty <= 0) cart.splice(i, 1);
-  updateCart();
+function updateCart(){
+
+let items = document.getElementById("cart-items");
+let total = 0;
+let count = 0;
+
+items.innerHTML = "";
+
+cart.forEach(item=>{
+total += item.price * item.qty;
+count += item.qty;
+
+items.innerHTML += `
+<div class="cart-item">
+<div>${item.name}</div>
+<div>${item.qty} × ${item.price} ₽</div>
+</div>
+`;
+});
+
+document.getElementById("cart-total").innerText = total;
+document.getElementById("cart-counter").innerText = count;
 }
 
-function removeItem(i) {
-  cart.splice(i, 1);
-  updateCart();
-}
-
-function toast(text) {
-  let t = document.createElement("div");
-  t.innerText = text;
-
-  t.style.position = "fixed";
-  t.style.bottom = "20px";
-  t.style.left = "50%";
-  t.style.transform = "translateX(-50%)";
-  t.style.background = "#8f42ff";
-  t.style.padding = "10px 20px";
-  t.style.borderRadius = "10px";
-  t.style.zIndex = "9999";
-
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 1500);
-}
 </script>
+
+</body>
 </html>
