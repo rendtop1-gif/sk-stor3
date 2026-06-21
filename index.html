@@ -148,6 +148,15 @@ color:white;
 #cart-modal button:hover{
 opacity:0.8;
 }
+.category{
+cursor:pointer;
+transition:0.2s;
+}
+
+.category:hover{
+transform:scale(1.05);
+background:#222;
+}
 </style>
 
 </head>
@@ -232,6 +241,34 @@ border-radius:20px;
 <div class="products">
 
 <div class="card">
+<div class="card" data-category="gems">
+  <h3>30 Gems</h3>
+  <div class="price">130 ₽</div>
+  <button onclick="addToCart('30 Gems',130)">В корзину</button>
+</div>
+
+<div class="card" data-category="gems">
+  <h3>80 Gems</h3>
+  <div class="price">250 ₽</div>
+  <button onclick="addToCart('80 Gems',250)">В корзину</button>
+</div>
+
+<div class="card" data-category="gems">
+  <h3>170 Gems</h3>
+  <div class="price">500 ₽</div>
+  <button onclick="addToCart('170 Gems',500)">В корзину</button>
+</div>
+<div class="card" data-category="passes">
+  <h3>Brawl Pass</h3>
+  <div class="price">300 ₽</div>
+  <button onclick="addToCart('Brawl Pass',300)">В корзину</button>
+</div>
+
+<div class="card" data-category="passes">
+  <h3>Brawl Pass Plus</h3>
+  <div class="price">650 ₽</div>
+  <button onclick="addToCart('Brawl Pass Plus',650)">В корзину</button>
+</div>
 <h3>30 Gems</h3>
 <div class="price">130 ₽</div>
 <button onclick="addToCart('30 Gems',130)">
@@ -374,6 +411,24 @@ function animateCart() {
     icon.style.transform = "scale(1)";
   }, 200);
 }
+function filterProducts(category) {
 
+  let products = document.querySelectorAll(".card");
+
+  products.forEach(card => {
+
+    if (category === "all") {
+      card.style.display = "block";
+      return;
+    }
+
+    if (card.dataset.category === category) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+}
 </script>
 </html>
