@@ -126,8 +126,8 @@ box-shadow:0 0 10px #8f42ff;
 
 <header>
 <div class="logo">SK STORE</div>
-<div style="margin-top:10px;cursor:pointer;" onclick="toggleCart()">
-🛒 Корзина: <span id="cart-counter">0</span>
+<div class="cart-icon" onclick="toggleCart()">
+🛒 <span id="cart-counter">0</span>
 </div>
 <div class="subtitle">Игровые товары Brawl Stars</div>
 </header>
@@ -199,58 +199,70 @@ border-radius:20px;
 <div class="card">
 <h3>80 Gems</h3>
 <div class="price">250 ₽</div>
-<button>В корзину</button>
+<button onclick="addToCart('80 Gems',250)">В корзину</button>
 </div>
 
 <div class="card">
 <h3>170 Gems</h3>
 <div class="price">500 ₽</div>
-<button>В корзину</button>
+<button onclick="addToCart('170 Gems',500)">В корзину</button>
 </div>
 
 <div class="card">
 <h3>Brawl Pass</h3>
 <div class="price">300 ₽</div>
-<button>В корзину</button>
+<button onclick="addToCart('Brawl Pass',300)">В корзину</button>
 </div>
 
 <div class="card">
 <h3>Brawl Pass Plus</h3>
 <div class="price">650 ₽</div>
-<button>В корзину</button>
+<button onclick="addToCart('Brawl Pass Plus',650)">В корзину</button>
 </div>
 
 </div>
 
 <footer>
-SK Store © 2025
+ООО "ТЪЕБАЛИ ДАЕДРИКА В ЖОПУ" © 2026
 </footer>
 
 </body>
 <script>
 
-let cartCount = 0;
-let total = 0;
+let cart = [];
 
-function addToCart(name, price){
-
-cartCount++;
-total += price;
-
-document.getElementById("cart-counter").innerText = cartCount;
-document.getElementById("cart-total").innerText = total;
-
-document.getElementById("cart-items").innerHTML +=
-"<div>"+name+" — "+price+" ₽</div>";
-
+function addToCart(name, price) {
+  cart.push({ name, price });
+  updateCart();
 }
 
-function toggleCart(){
-document.getElementById("cart-modal").style.display="block";
+function updateCart() {
+  let items = document.getElementById("cart-items");
+  let total = 0;
+
+  items.innerHTML = "";
+
+  cart.forEach((item) => {
+    total += item.price;
+
+    items.innerHTML += `
+      <div style="display:flex;justify-content:space-between;margin:6px 0;">
+        <span>${item.name}</span>
+        <span>${item.price} ₽</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("cart-total").innerText = total;
+  document.getElementById("cart-counter").innerText = cart.length;
 }
 
-function closeCart(){
-document.getElementById("cart-modal").style.display="none";
+function toggleCart() {
+  document.getElementById("cart-modal").style.display = "block";
+}
+
+function closeCart() {
+  document.getElementById("cart-modal").style.display = "none";
 }
 
 </script>
