@@ -278,28 +278,22 @@ border-radius:10px;
 
 </div>
 
-<div style="
-background:#171717;
-margin:40px auto;
-width:90%;
-max-width:400px;
-padding:20px;
-border-radius:20px;
-">
+<div id="cart-overlay" onclick="closeCart()"></div>
 
-<h2>Корзина</h2>
+<div id="cart-panel">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2>🛒 Корзина</h2>
+    <button onclick="closeCart()" style="width:40px;">×</button>
+  </div>
+
+  <div id="cart-items"></div>
+
+  <h3 style="margin-top:15px;">
+    Итого: <span id="cart-total">0</span> ₽
+  </h3>
 
 </div>
-
-<div id="cart-items"></div>
-
-<h3 style="margin-top:15px;">
-Итого: <span id="cart-total">0</span> ₽
-</h3>
-
-<button onclick="closeCart()">
-Закрыть
-</button>
 
 <a href="https://t.me/setsunathebest">
 <button>
@@ -382,30 +376,24 @@ function addToCart(name, price) {
 
   let item = cart.find(i => i.name === name);
 
-  if (item) {
-    item.qty++;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
+  if (item) item.qty++;
+  else cart.push({ name, price, qty: 1 });
 
   updateCart();
   openCart();
   toast("Добавлено в корзину");
 }
 
-/* OPEN CART */
 function openCart() {
   document.getElementById("cart-overlay").style.display = "block";
   document.getElementById("cart-panel").classList.add("open");
 }
 
-/* CLOSE CART */
 function closeCart() {
   document.getElementById("cart-overlay").style.display = "none";
   document.getElementById("cart-panel").classList.remove("open");
 }
 
-/* UPDATE CART */
 function updateCart() {
 
   let items = document.getElementById("cart-items");
@@ -442,26 +430,18 @@ function updateCart() {
   document.getElementById("cart-counter").innerText = count;
 }
 
-/* CHANGE QTY */
 function changeQty(i, val) {
   cart[i].qty += val;
-
-  if (cart[i].qty <= 0) {
-    cart.splice(i, 1);
-  }
-
+  if (cart[i].qty <= 0) cart.splice(i,1);
   updateCart();
 }
 
-/* REMOVE ITEM */
 function removeItem(i) {
-  cart.splice(i, 1);
+  cart.splice(i,1);
   updateCart();
 }
 
-/* TOAST */
 function toast(text){
-
   let t = document.createElement("div");
   t.innerText = text;
 
@@ -475,9 +455,7 @@ function toast(text){
   t.style.zIndex = "9999";
 
   document.body.appendChild(t);
-
   setTimeout(()=> t.remove(), 1500);
 }
-
 </script>
 </html>
