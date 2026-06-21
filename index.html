@@ -170,6 +170,18 @@ transition:0.25s;
 transform:scale(1.03);
 box-shadow:0 0 15px rgba(143,66,255,0.4);
 }
+.card{
+opacity:0;
+transform:translateY(10px);
+animation:fadeIn 0.4s forwards;
+}
+
+@keyframes fadeIn{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 </style>
 
 </head>
