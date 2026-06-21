@@ -169,5 +169,12 @@ color:#888;
 SK Store © 2025
 </footer>
 
-</body>
+</body><script>
+let cartCount = 0;
+
+function addToCart() {
+  cartCount++;
+  document.getElementById("cart-counter").innerText = cartCount;
+}
+</script>
 </html>
