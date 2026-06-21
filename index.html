@@ -211,32 +211,36 @@ color:#888;
 <div class="categories">
 
   <div class="category active" onclick="filterProducts('all', this)">Все</div>
+
   <div class="category" onclick="filterProducts('gems', this)">Гемы</div>
   <div class="category" onclick="filterProducts('passes', this)">Пропуски</div>
+  <div class="category" onclick="filterProducts('skins', this)">Скины</div>
+  <div class="category" onclick="filterProducts('resources', this)">Ресурсы</div>
+  <div class="category" onclick="filterProducts('sales', this)">Акции</div>
 
 </div>
 <!-- PRODUCTS -->
 <div class="products">
 
-<div class="card">
+<div class="card"data-category="gems">
 <h3>30 Gems</h3>
 <div class="price">130 ₽</div>
 <button onclick="addToCart('30 Gems',130)">В корзину</button>
 </div>
 
-<div class="card">
+<div class="card"data-category="gems">
 <h3>80 Gems</h3>
 <div class="price">250 ₽</div>
 <button onclick="addToCart('80 Gems',250)">В корзину</button>
 </div>
 
-<div class="card">
+<div class="card"data-category="gems">
 <h3>170 Gems</h3>
 <div class="price">500 ₽</div>
 <button onclick="addToCart('170 Gems',500)">В корзину</button>
 </div>
 
-<div class="card">
+<div class="card"data-category="passes">
 <h3>Brawl Pass</h3>
 <div class="price">300 ₽</div>
 <button onclick="addToCart('Brawl Pass',300)">В корзину</button>
