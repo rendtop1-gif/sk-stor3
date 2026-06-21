@@ -256,11 +256,11 @@ border-radius:10px;
 </div>
 <div class="subtitle">Игровые товары Brawl Stars</div>
 </header>
-<!-- SHOPIFY LIGHT PRO CART -->
+<!-- CART -->
 <div id="cart-overlay" onclick="closeCart()"></div>
 
 <div id="cart-panel">
-  
+
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h2>🛒 Корзина</h2>
     <button onclick="closeCart()" style="width:40px;">×</button>
@@ -272,34 +272,9 @@ border-radius:10px;
     Итого: <span id="cart-total">0</span> ₽
   </h3>
 
-  <button onclick="sendOrder()">
+  <button onclick="alert('Оформление будет через Telegram')">
     Оформить заказ
   </button>
-
-</div>
-
-<div id="cart-overlay" onclick="closeCart()"></div>
-
-<div id="cart-panel">
-
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <h2>🛒 Корзина</h2>
-    <button onclick="closeCart()" style="width:40px;">×</button>
-  </div>
-
-  <div id="cart-items"></div>
-
-  <h3 style="margin-top:15px;">
-    Итого: <span id="cart-total">0</span> ₽
-  </h3>
-
-</div>
-
-<a href="https://t.me/setsunathebest">
-<button>
-Оформить заказ
-</button>
-</a>
 
 </div>
 
@@ -369,11 +344,9 @@ border-radius:10px;
 
 </body>
 <script>
-
 let cart = [];
 
 function addToCart(name, price) {
-
   let item = cart.find(i => i.name === name);
 
   if (item) item.qty++;
@@ -395,7 +368,6 @@ function closeCart() {
 }
 
 function updateCart() {
-
   let items = document.getElementById("cart-items");
   let total = 0;
   let count = 0;
@@ -403,13 +375,11 @@ function updateCart() {
   items.innerHTML = "";
 
   cart.forEach((item, index) => {
-
     total += item.price * item.qty;
     count += item.qty;
 
     items.innerHTML += `
       <div class="cart-item">
-
         <div>
           <b>${item.name}</b><br>
           ${item.price * item.qty} ₽
@@ -421,7 +391,6 @@ function updateCart() {
           <button onclick="changeQty(${index},1)" style="width:30px;">+</button>
           <button onclick="removeItem(${index})" style="background:red;width:30px;">×</button>
         </div>
-
       </div>
     `;
   });
@@ -432,16 +401,16 @@ function updateCart() {
 
 function changeQty(i, val) {
   cart[i].qty += val;
-  if (cart[i].qty <= 0) cart.splice(i,1);
+  if (cart[i].qty <= 0) cart.splice(i, 1);
   updateCart();
 }
 
 function removeItem(i) {
-  cart.splice(i,1);
+  cart.splice(i, 1);
   updateCart();
 }
 
-function toast(text){
+function toast(text) {
   let t = document.createElement("div");
   t.innerText = text;
 
@@ -455,7 +424,7 @@ function toast(text){
   t.style.zIndex = "9999";
 
   document.body.appendChild(t);
-  setTimeout(()=> t.remove(), 1500);
+  setTimeout(() => t.remove(), 1500);
 }
 </script>
 </html>
