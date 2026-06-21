@@ -277,81 +277,173 @@ SK Store © 2026
 
 let cart = [];
 
+/* ДОБАВИТЬ В КОРЗИНУ */
 function addToCart(name, price, btn){
 
   let item = cart.find(i => i.name === name);
 
   if(item){
     item.qty++;
-  } else {
-    cart.push({name, price, qty:1});
+  }else{
+    cart.push({
+      name:name,
+      price:price,
+      qty:1
+    });
   }
 
   updateCart();
-  openCart();
 
-  // 👇 изменение кнопки
   if(btn){
-    btn.innerText = "Добавлено ✓";
+
+    btn.innerText = "✓ Добавлено";
     btn.style.background = "#22c55e";
 
     setTimeout(()=>{
       btn.innerText = "В корзину";
       btn.style.background = "#8f42ff";
-    }, 1200);
+    },1200);
+
   }
 
-  toast("Добавлено в корзину");
+  toast("Товар добавлен");
 }
 
+/* ОТКРЫТЬ КОРЗИНУ */
+function openCart(){
+
+  document.getElementById("cart-overlay").style.display = "block";
+  document.getElementById("cart-panel").classList.add("open");
+
+}
+
+/* ЗАКРЫТЬ КОРЗИНУ */
 function closeCart(){
-document.getElementById("cart-overlay").style.display="none";
-document.getElementById("cart-panel").classList.remove("open");
+
+  document.getElementById("cart-overlay").style.display = "none";
+  document.getElementById("cart-panel").classList.remove("open");
+
 }
 
+/* ОБНОВИТЬ КОРЗИНУ */
 function updateCart(){
 
-let items = document.getElementById("cart-items");
-let total = 0;
-let count = 0;
+  let items = document.getElementById("cart-items");
 
-items.innerHTML = "";
+  let total = 0;
+  let count = 0;
 
-cart.forEach(item=>{
-total += item.price * item.qty;
-count += item.qty;
+  items.innerHTML = "";
 
-items.innerHTML += `
-<div class="cart-item">
-<div>${item.name}</div>
-<div>${item.qty} × ${item.price} ₽</div>
-</div>
-`;
-});
+  cart.forEach((item,index)=>{
 
-document.getElementById("cart-total").innerText = total;
-document.getElementById("cart-counter").innerText = count;
+    total += item.price * item.qty;
+    count += item.qty;
+
+    items.innerHTML += `
+      <div class="cart-item">
+
+        <div>
+          <b>${item.name}</b><br>
+          ${item.price * item.qty} ₽
+        </div>
+
+        <div style="display:flex;gap:5px;align-items:center;">
+
+          <button onclick="changeQty(${index},-1)" style="width:35px;">-</button>
+
+          <span>${item.qty}</span>
+
+          <button onclick="changeQty(${index},1)" style="width:35px;">+</button>
+
+          <button onclick="removeItem(${index})" style="background:red;width:35px;">
+            ×
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  });
+
+  document.getElementById("cart-total").innerText = total;
+  document.getElementById("cart-counter").innerText = count;
+
 }
+
+/* ИЗМЕНИТЬ КОЛИЧЕСТВО */
+function changeQty(index,val){
+
+  cart[index].qty += val;
+
+  if(cart[index].qty <= 0){
+    cart.splice(index,1);
+  }
+
+  updateCart();
+
+}
+
+/* УДАЛИТЬ ТОВАР */
+function removeItem(index){
+
+  cart.splice(index,1);
+  updateCart();
+
+}
+
+/* ФИЛЬТР КАТЕГОРИЙ */
 function filterProducts(category, el){
 
   let cards = document.querySelectorAll(".card");
   let cats = document.querySelectorAll(".category");
 
-  cats.forEach(c => c.classList.remove("active"));
+  cats.forEach(cat=>{
+    cat.classList.remove("active");
+  });
+
   el.classList.add("active");
 
-  cards.forEach(card => {
+  cards.forEach(card=>{
 
-    let match = category === "all" || card.dataset.category === category;
-
-    if(match){
-      card.classList.remove("hide");
-    } else {
-      card.classList.add("hide");
+    if(
+      category === "all" ||
+      card.dataset.category === category
+    ){
+      card.style.display = "block";
+    }else{
+      card.style.display = "none";
     }
 
   });
+
 }
+
+/* УВЕДОМЛЕНИЕ */
+function toast(text){
+
+  let t = document.createElement("div");
+
+  t.innerText = text;
+
+  t.style.position = "fixed";
+  t.style.bottom = "20px";
+  t.style.left = "50%";
+  t.style.transform = "translateX(-50%)";
+  t.style.background = "#8f42ff";
+  t.style.padding = "10px 20px";
+  t.style.borderRadius = "10px";
+  t.style.zIndex = "9999";
+
+  document.body.appendChild(t);
+
+  setTimeout(()=>{
+    t.remove();
+  },1500);
+
+}
+
 </script>
 
 </body>
