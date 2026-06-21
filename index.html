@@ -675,6 +675,35 @@ for(let i = 0; i < 40; i++){
 
   particles.appendChild(p);
 }
+async function sendOrder() {
+
+  if (cart.length === 0) {
+    toast("Корзина пуста");
+    return;
+  }
+
+  let total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+  const res = await fetch("/api/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      cart,
+      total
+    })
+  });
+
+  if (res.ok) {
+    toast("Заказ отправлен!");
+    cart = [];
+    updateCart();
+    closeCart();
+  } else {
+    toast("Ошибка отправки");
+  }
+}
 </script>
 
 </body>
