@@ -181,6 +181,18 @@ color:#888;
   transform:scale(0.95);
   pointer-events:none;
 }
+.glow-title{
+  background: linear-gradient(90deg,#8f42ff,#ff4fd8,#8f42ff);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+  0%{background-position:0%}
+  100%{background-position:200%}
+}
 </style>
 
 </head>
@@ -188,7 +200,7 @@ color:#888;
 <body>
 
 <header>
-<div class="logo">SK STORE</div>
+<div class="logo glow-title">SK STORE</div>
 <div class="subtitle">Игровые товары Brawl Stars</div>
 
 <div class="cart-icon" onclick="openCart()">
@@ -234,25 +246,25 @@ color:#888;
 <div class="card"data-category="gems">
 <h3>30 Gems</h3>
 <div class="price">130 ₽</div>
-<button onclick="addToCart('30 Gems',130)">В корзину</button>
+<button onclick="addToCart('30 Gems',130,this)">В корзину</button>
 </div>
 
 <div class="card"data-category="gems">
 <h3>80 Gems</h3>
 <div class="price">250 ₽</div>
-<button onclick="addToCart('80 Gems',250)">В корзину</button>
+<button onclick="addToCart('80 Gems',250,this)">В корзину</button>
 </div>
 
 <div class="card"data-category="gems">
 <h3>170 Gems</h3>
 <div class="price">500 ₽</div>
-<button onclick="addToCart('170 Gems',500)">В корзину</button>
+<button onclick="addToCart('170 Gems',500,this)">В корзину</button>
 </div>
 
 <div class="card"data-category="passes">
 <h3>Brawl Pass</h3>
 <div class="price">300 ₽</div>
-<button onclick="addToCart('Brawl Pass',300)">В корзину</button>
+<button onclick="addToCart('Brawl Pass',300,this)">В корзину</button>
 </div>
 
 </div>
