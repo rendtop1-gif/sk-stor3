@@ -208,7 +208,13 @@ color:#888;
 <div class="banner">
 <img src="https://github.com/user-attachments/assets/48ec96f9-f570-4809-88b2-b67adbc084c4">
 </div>
+<div class="categories">
 
+  <div class="category active" onclick="filterProducts('all', this)">Все</div>
+  <div class="category" onclick="filterProducts('gems', this)">Гемы</div>
+  <div class="category" onclick="filterProducts('passes', this)">Пропуски</div>
+
+</div>
 <!-- PRODUCTS -->
 <div class="products">
 
@@ -291,7 +297,29 @@ items.innerHTML += `
 document.getElementById("cart-total").innerText = total;
 document.getElementById("cart-counter").innerText = count;
 }
+function filterProducts(category, el){
 
+  let cards = document.querySelectorAll(".card");
+  let cats = document.querySelectorAll(".category");
+
+  cats.forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+
+  cards.forEach(card => {
+
+    if(category === "all"){
+      card.style.display = "block";
+      return;
+    }
+
+    if(card.dataset.category === category){
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+}
 </script>
 
 </body>
