@@ -201,6 +201,24 @@ color:#888;
   0%{background-position:0%}
   100%{background-position:200%}
 }
+.fly-item{
+
+position:fixed;
+
+z-index:9999;
+
+width:20px;
+height:20px;
+
+border-radius:50%;
+
+background:#8f42ff;
+
+pointer-events:none;
+
+box-shadow:0 0 15px #8f42ff;
+
+}
 </style>
 
 </head>
@@ -301,6 +319,8 @@ function addToCart(name, price, btn){
   }
 
   updateCart();
+
+flyToCart(btn);
 
   if(btn){
 
@@ -415,43 +435,71 @@ function filterProducts(category, el){
 
   cards.forEach(card=>{
 
-    if(
+    let show =
       category === "all" ||
-      card.dataset.category === category
-    ){
+      card.dataset.category === category;
+
+    if(show){
+
       card.style.display = "block";
+
+      setTimeout(()=>{
+        card.classList.remove("hide");
+      },10);
+
     }else{
-      card.style.display = "none";
+
+      card.classList.add("hide");
+
+      setTimeout(()=>{
+        card.style.display = "none";
+      },300);
+
     }
 
   });
 
 }
+function flyToCart(btn){
 
-/* УВЕДОМЛЕНИЕ */
-function toast(text){
+  if(!btn) return;
 
-  let t = document.createElement("div");
+  let cart = document.querySelector(".cart-icon");
 
-  t.innerText = text;
+  let start = btn.getBoundingClientRect();
+  let end = cart.getBoundingClientRect();
 
-  t.style.position = "fixed";
-  t.style.bottom = "20px";
-  t.style.left = "50%";
-  t.style.transform = "translateX(-50%)";
-  t.style.background = "#8f42ff";
-  t.style.padding = "10px 20px";
-  t.style.borderRadius = "10px";
-  t.style.zIndex = "9999";
+  let dot = document.createElement("div");
 
-  document.body.appendChild(t);
+  dot.className = "fly-item";
+
+  dot.style.left = start.left + "px";
+  dot.style.top = start.top + "px";
+
+  document.body.appendChild(dot);
+
+  let x = end.left - start.left;
+  let y = end.top - start.top;
+
+  dot.animate([
+    {
+      transform:"translate(0,0) scale(1)",
+      opacity:1
+    },
+    {
+      transform:`translate(${x}px,${y}px) scale(0.3)`,
+      opacity:0
+    }
+  ],{
+    duration:700,
+    easing:"cubic-bezier(.2,.8,.2,1)"
+  });
 
   setTimeout(()=>{
-    t.remove();
-  },1500);
+    dot.remove();
+  },700);
 
 }
-
 </script>
 
 </body>
