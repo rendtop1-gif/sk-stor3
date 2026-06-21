@@ -157,6 +157,25 @@ transition:0.2s;
 transform:scale(1.05);
 background:#222;
 }
+.category.active{
+background:#8f42ff;
+color:white;
+transform:scale(1.05);
+}
+.card{
+transition:0.25s;
+}
+
+.card:hover{
+transform:scale(1.03);
+box-shadow:0 0 15px rgba(143,66,255,0.4);
+}
+.categories{
+position:sticky;
+top:0;
+background:#090909;
+z-index:999;
+}
 </style>
 
 </head>
@@ -234,7 +253,7 @@ border-radius:20px;
 
 <div class="products">
 
-<div class="card">
+<!-- GEMS -->
 <div class="card" data-category="gems">
   <h3>30 Gems</h3>
   <div class="price">130 ₽</div>
@@ -252,6 +271,8 @@ border-radius:20px;
   <div class="price">500 ₽</div>
   <button onclick="addToCart('170 Gems',500)">В корзину</button>
 </div>
+
+<!-- PASSES -->
 <div class="card" data-category="passes">
   <h3>Brawl Pass</h3>
   <div class="price">300 ₽</div>
@@ -262,36 +283,6 @@ border-radius:20px;
   <h3>Brawl Pass Plus</h3>
   <div class="price">650 ₽</div>
   <button onclick="addToCart('Brawl Pass Plus',650)">В корзину</button>
-</div>
-<h3>30 Gems</h3>
-<div class="price">130 ₽</div>
-<button onclick="addToCart('30 Gems',130)">
-В корзину
-</button>
-</div>
-
-<div class="card">
-<h3>80 Gems</h3>
-<div class="price">250 ₽</div>
-<button onclick="addToCart('80 Gems',250)">В корзину</button>
-</div>
-
-<div class="card">
-<h3>170 Gems</h3>
-<div class="price">500 ₽</div>
-<button onclick="addToCart('170 Gems',500)">В корзину</button>
-</div>
-
-<div class="card">
-<h3>Brawl Pass</h3>
-<div class="price">300 ₽</div>
-<button onclick="addToCart('Brawl Pass',300)">В корзину</button>
-</div>
-
-<div class="card">
-<h3>Brawl Pass Plus</h3>
-<div class="price">650 ₽</div>
-<button onclick="addToCart('Brawl Pass Plus',650)">В корзину</button>
 </div>
 
 </div>
@@ -408,6 +399,11 @@ function animateCart() {
 function filterProducts(category) {
 
   let products = document.querySelectorAll(".card");
+  let categories = document.querySelectorAll(".category");
+
+  categories.forEach(c => c.classList.remove("active"));
+
+  event.target.classList.add("active");
 
   products.forEach(card => {
 
