@@ -383,15 +383,29 @@ function addToCart(name, price) {
   let item = cart.find(i => i.name === name);
 
   if (item) {
-    item.qty += 1;
+    item.qty++;
   } else {
     cart.push({ name, price, qty: 1 });
   }
 
-  animateCart();
   updateCart();
+  openCart();
+  toast("Добавлено в корзину");
 }
 
+/* OPEN CART */
+function openCart() {
+  document.getElementById("cart-overlay").style.display = "block";
+  document.getElementById("cart-panel").classList.add("open");
+}
+
+/* CLOSE CART */
+function closeCart() {
+  document.getElementById("cart-overlay").style.display = "none";
+  document.getElementById("cart-panel").classList.remove("open");
+}
+
+/* UPDATE CART */
 function updateCart() {
 
   let items = document.getElementById("cart-items");
@@ -404,95 +418,6 @@ function updateCart() {
 
     total += item.price * item.qty;
     count += item.qty;
-
-    items.innerHTML += `
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin:10px 0;
-        padding:10px;
-        background:#222;
-        border-radius:10px;
-      ">
-
-        <div style="flex:1">
-          ${item.name}
-        </div>
-
-        <div style="display:flex;align-items:center;gap:8px;">
-
-          <button onclick="changeQty(${index}, -1)" style="width:30px;">-</button>
-
-          <span>${item.qty}</span>
-
-          <button onclick="changeQty(${index}, 1)" style="width:30px;">+</button>
-
-          <b>${item.price * item.qty} ₽</b>
-
-          <button onclick="removeItem(${index})" style="background:red;width:30px;">
-            ×
-          </button>
-
-        </div>
-
-      </div>
-    `;
-  });
-
-  document.getElementById("cart-total").innerText = total;
-  document.getElementById("cart-counter").innerText = count;
-}
-
-function changeQty(index, value) {
-  cart[index].qty += value;
-
-  if (cart[index].qty <= 0) {
-    cart.splice(index, 1);
-  }
-
-function removeItem(index) {
-  cart.splice(index, 1);
-  updateCart();
-}
-
-let cart = [];
-
-function addToCart(name, price) {
-
-  let item = cart.find(i => i.name === name);
-
-  if (item) {
-    item.qty++;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
-
-  updateCart();
-  openCart();
-  toast("Добавлено в корзину");
-}
-
-function openCart() {
-  document.getElementById("cart-overlay").style.display = "block";
-  document.getElementById("cart-panel").classList.add("open");
-}
-
-function closeCart() {
-  document.getElementById("cart-overlay").style.display = "none";
-  document.getElementById("cart-panel").classList.remove("open");
-}
-
-function updateCart() {
-
-  let items = document.getElementById("cart-items");
-  let total = 0;
-
-  items.innerHTML = "";
-
-  cart.forEach((item, index) => {
-
-    total += item.price * item.qty;
 
     items.innerHTML += `
       <div class="cart-item">
@@ -514,17 +439,23 @@ function updateCart() {
   });
 
   document.getElementById("cart-total").innerText = total;
-  document.getElementById("cart-counter").innerText = cart.reduce((a,b)=>a+b.qty,0);
+  document.getElementById("cart-counter").innerText = count;
 }
 
-function changeQty(i,val){
+/* CHANGE QTY */
+function changeQty(i, val) {
   cart[i].qty += val;
-  if(cart[i].qty <= 0) cart.splice(i,1);
+
+  if (cart[i].qty <= 0) {
+    cart.splice(i, 1);
+  }
+
   updateCart();
 }
 
-function removeItem(i){
-  cart.splice(i,1);
+/* REMOVE ITEM */
+function removeItem(i) {
+  cart.splice(i, 1);
   updateCart();
 }
 
@@ -548,31 +479,5 @@ function toast(text){
   setTimeout(()=> t.remove(), 1500);
 }
 
-function filterProducts(category) {
-
-  let products = document.querySelectorAll(".card");
-  let categories = document.querySelectorAll(".category");
-
-  categories.forEach(c => c.classList.remove("active"));
-
-  if (event && event.target) {
-    event.target.classList.add("active");
-  }
-
-  products.forEach(card => {
-
-    if (category === "all") {
-      card.style.display = "block";
-      return;
-    }
-
-    if (card.dataset.category === category) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-
-  });
-}
 </script>
 </html>
