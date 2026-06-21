@@ -172,6 +172,15 @@ padding:25px;
 text-align:center;
 color:#888;
 }
+.card{
+  transition:0.3s ease;
+}
+
+.card.hide{
+  opacity:0;
+  transform:scale(0.95);
+  pointer-events:none;
+}
 </style>
 
 </head>
@@ -311,15 +320,12 @@ function filterProducts(category, el){
 
   cards.forEach(card => {
 
-    if(category === "all"){
-      card.style.display = "block";
-      return;
-    }
+    let match = category === "all" || card.dataset.category === category;
 
-    if(card.dataset.category === category){
-      card.style.display = "block";
+    if(match){
+      card.classList.remove("hide");
     } else {
-      card.style.display = "none";
+      card.classList.add("hide");
     }
 
   });
