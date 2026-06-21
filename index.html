@@ -75,12 +75,38 @@ padding:20px;
 }
 
 .category{
+
 background:#171717;
+
 padding:15px;
+
 border-radius:15px;
+
 text-align:center;
+
 cursor:pointer;
-transition:0.2s;
+
+transition:0.25s;
+
+border:1px solid #2a2a2a;
+
+}
+
+.category.active{
+
+background:linear-gradient(
+135deg,
+#8f42ff,
+#b06bff
+);
+
+color:white;
+
+border-color:#b06bff;
+
+box-shadow:
+0 0 15px rgba(143,66,255,0.5);
+
 }
 
 .category:hover{
@@ -95,13 +121,49 @@ gap:15px;
 }
 
 .card{
-background:#171717;
+
+background:rgba(255,255,255,0.04);
+
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+
 border-radius:20px;
 padding:15px;
-border:1px solid #2e2e2e;
-transition:0.35s;
-opacity:1;
-transform:scale(1);
+
+border:1px solid rgba(143,66,255,0.25);
+
+box-shadow:
+0 0 10px rgba(143,66,255,0.08);
+
+transition:0.3s ease;
+
+position:relative;
+overflow:hidden;
+
+}
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:-100%;
+
+width:100%;
+height:2px;
+
+background:linear-gradient(
+90deg,
+transparent,
+#8f42ff,
+#ff4fd8,
+transparent
+);
+
+transition:0.5s;
+
 }
 
 .card.hide{
@@ -111,7 +173,19 @@ pointer-events:none;
 }
 
 .card:hover{
-transform:scale(1.03);
+
+transform:translateY(-4px);
+
+border-color:#8f42ff;
+
+box-shadow:
+0 0 25px rgba(143,66,255,0.45),
+0 0 40px rgba(255,79,216,0.15);
+
+}
+
+.card:hover::before{
+left:100%;
 }
 
 .price{
@@ -122,19 +196,40 @@ margin-top:10px;
 }
 
 button{
+
 width:100%;
+
 padding:12px;
+
 margin-top:15px;
-background:#8f42ff;
+
+background:linear-gradient(
+135deg,
+#8f42ff,
+#b06bff
+);
+
 border:none;
+
 color:white;
+
 border-radius:12px;
+
 font-weight:bold;
+
 cursor:pointer;
+
+transition:0.25s;
+
 }
 
 button:hover{
-opacity:0.9;
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 20px rgba(143,66,255,0.6);
+
 }
 
 /* CART */
@@ -188,13 +283,27 @@ color:#888;
   opacity:0;
   transform:scale(0.95);
   pointer-events:none;
+
 }
+
 .glow-title{
-  background: linear-gradient(90deg,#8f42ff,#ff4fd8,#8f42ff);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 3s linear infinite;
+
+background:linear-gradient(
+90deg,
+#8f42ff,
+#ff4fd8,
+#8f42ff
+);
+
+background-size:300% 100%;
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+animation:shine 4s linear infinite;
+
+filter:drop-shadow(0 0 10px rgba(143,66,255,0.5));
+
 }
 
 @keyframes shine{
