@@ -114,12 +114,52 @@ color:#888;
 
 <header>
 <div class="logo">SK STORE</div>
-<div style="margin-top:10px;">
+<div style="margin-top:10px;cursor:pointer;" onclick="toggleCart()">
 🛒 Корзина: <span id="cart-counter">0</span>
 </div>
 <div class="subtitle">Игровые товары Brawl Stars</div>
 </header>
+<div id="cart-modal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+z-index:999;
+">
 
+<div style="
+background:#171717;
+margin:40px auto;
+width:90%;
+max-width:400px;
+padding:20px;
+border-radius:20px;
+">
+
+<h2>Корзина</h2>
+
+<div id="cart-items"></div>
+
+<h3 style="margin-top:15px;">
+Итого: <span id="cart-total">0</span> ₽
+</h3>
+
+<button onclick="closeCart()">
+Закрыть
+</button>
+
+<a href="https://t.me/setsunathebest">
+<button>
+Оформить заказ
+</button>
+</a>
+
+</div>
+
+</div>
 <div class="banner">
 <h2>Добро пожаловать в SK Store</h2>
 <p>Быстрая выдача • Поддержка • Лучшие цены</p>
@@ -139,7 +179,9 @@ color:#888;
 <div class="card">
 <h3>30 Gems</h3>
 <div class="price">130 ₽</div>
-<button onclick="addToCart()">В корзину</button>
+<button onclick="addToCart('30 Gems',130)">
+В корзину
+</button>
 </div>
 
 <div class="card">
@@ -172,12 +214,32 @@ color:#888;
 SK Store © 2025
 </footer>
 
-</body><script>
-let cartCount = 0;
+</body>
+<script>
 
-function addToCart() {
-  cartCount++;
-  document.getElementById("cart-counter").innerText = cartCount;
+let cartCount = 0;
+let total = 0;
+
+function addToCart(name, price){
+
+cartCount++;
+total += price;
+
+document.getElementById("cart-counter").innerText = cartCount;
+document.getElementById("cart-total").innerText = total;
+
+document.getElementById("cart-items").innerHTML +=
+"<div>"+name+" — "+price+" ₽</div>";
+
 }
+
+function toggleCart(){
+document.getElementById("cart-modal").style.display="block";
+}
+
+function closeCart(){
+document.getElementById("cart-modal").style.display="none";
+}
+
 </script>
 </html>
