@@ -265,21 +265,31 @@ SK Store © 2026
 
 let cart = [];
 
-function addToCart(name, price){
-let item = cart.find(i => i.name === name);
+function addToCart(name, price, btn){
 
-if(item){
-item.qty++;
-}else{
-cart.push({name, price, qty:1});
-}
+  let item = cart.find(i => i.name === name);
 
-updateCart();
-}
+  if(item){
+    item.qty++;
+  } else {
+    cart.push({name, price, qty:1});
+  }
 
-function openCart(){
-document.getElementById("cart-overlay").style.display="block";
-document.getElementById("cart-panel").classList.add("open");
+  updateCart();
+  openCart();
+
+  // 👇 изменение кнопки
+  if(btn){
+    btn.innerText = "Добавлено ✓";
+    btn.style.background = "#22c55e";
+
+    setTimeout(()=>{
+      btn.innerText = "В корзину";
+      btn.style.background = "#8f42ff";
+    }, 1200);
+  }
+
+  toast("Добавлено в корзину");
 }
 
 function closeCart(){
