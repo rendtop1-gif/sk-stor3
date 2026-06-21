@@ -191,6 +191,58 @@ button:hover{
 transform:scale(1.03);
 box-shadow:0 0 10px rgba(143,66,255,0.5);
 }
+/* затемнение */
+#cart-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+z-index:1000;
+}
+
+/* панель корзины */
+#cart-panel{
+position:fixed;
+top:0;
+right:-400px;
+width:350px;
+height:100%;
+background:#171717;
+z-index:1001;
+padding:20px;
+transition:0.3s;
+box-shadow:-10px 0 20px rgba(0,0,0,0.5);
+}
+
+/* открыть */
+#cart-panel.open{
+right:0;
+}
+
+/* кнопки */
+#cart-panel button{
+width:100%;
+padding:10px;
+margin-top:10px;
+background:#8f42ff;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:10px 0;
+padding:10px;
+background:#222;
+border-radius:10px;
+}
 </style>
 
 </head>
@@ -204,16 +256,27 @@ box-shadow:0 0 10px rgba(143,66,255,0.5);
 </div>
 <div class="subtitle">Игровые товары Brawl Stars</div>
 </header>
-<div id="cart-modal" style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-z-index:999;
-">
+<!-- SHOPIFY LIGHT PRO CART -->
+<div id="cart-overlay" onclick="closeCart()"></div>
+
+<div id="cart-panel">
+  
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2>🛒 Корзина</h2>
+    <button onclick="closeCart()" style="width:40px;">×</button>
+  </div>
+
+  <div id="cart-items"></div>
+
+  <h3 style="margin-top:15px;">
+    Итого: <span id="cart-total">0</span> ₽
+  </h3>
+
+  <button onclick="sendOrder()">
+    Оформить заказ
+  </button>
+
+</div>
 
 <div style="
 background:#171717;
@@ -388,33 +451,103 @@ function changeQty(index, value) {
     cart.splice(index, 1);
   }
 
-  updateCart();
-}
-
 function removeItem(index) {
   cart.splice(index, 1);
   updateCart();
 }
 
-function toggleCart() {
-  document.getElementById("cart-modal").style.display = "block";
+let cart = [];
+
+function addToCart(name, price) {
+
+  let item = cart.find(i => i.name === name);
+
+  if (item) {
+    item.qty++;
+  } else {
+    cart.push({ name, price, qty: 1 });
+  }
+
+  updateCart();
+  openCart();
+  toast("Добавлено в корзину");
+}
+
+function openCart() {
+  document.getElementById("cart-overlay").style.display = "block";
+  document.getElementById("cart-panel").classList.add("open");
 }
 
 function closeCart() {
-  document.getElementById("cart-modal").style.display = "none";
+  document.getElementById("cart-overlay").style.display = "none";
+  document.getElementById("cart-panel").classList.remove("open");
 }
 
-/* ✨ анимация корзины */
-function animateCart() {
-  let icon = document.querySelector(".cart-icon");
+function updateCart() {
 
-  icon.style.transform = "scale(1.25)";
-  icon.style.transition = "0.2s";
+  let items = document.getElementById("cart-items");
+  let total = 0;
 
-  setTimeout(() => {
-    icon.style.transform = "scale(1)";
-  }, 200);
+  items.innerHTML = "";
+
+  cart.forEach((item, index) => {
+
+    total += item.price * item.qty;
+
+    items.innerHTML += `
+      <div class="cart-item">
+
+        <div>
+          <b>${item.name}</b><br>
+          ${item.price * item.qty} ₽
+        </div>
+
+        <div style="display:flex;gap:5px;">
+          <button onclick="changeQty(${index},-1)" style="width:30px;">-</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${index},1)" style="width:30px;">+</button>
+          <button onclick="removeItem(${index})" style="background:red;width:30px;">×</button>
+        </div>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("cart-total").innerText = total;
+  document.getElementById("cart-counter").innerText = cart.reduce((a,b)=>a+b.qty,0);
 }
+
+function changeQty(i,val){
+  cart[i].qty += val;
+  if(cart[i].qty <= 0) cart.splice(i,1);
+  updateCart();
+}
+
+function removeItem(i){
+  cart.splice(i,1);
+  updateCart();
+}
+
+/* TOAST */
+function toast(text){
+
+  let t = document.createElement("div");
+  t.innerText = text;
+
+  t.style.position = "fixed";
+  t.style.bottom = "20px";
+  t.style.left = "50%";
+  t.style.transform = "translateX(-50%)";
+  t.style.background = "#8f42ff";
+  t.style.padding = "10px 20px";
+  t.style.borderRadius = "10px";
+  t.style.zIndex = "9999";
+
+  document.body.appendChild(t);
+
+  setTimeout(()=> t.remove(), 1500);
+}
+
 function filterProducts(category) {
 
   let products = document.querySelectorAll(".card");
