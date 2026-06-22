@@ -290,10 +290,10 @@ margin:20px auto;
 
 }
 .banner img{
-
-max-height:300px;
-object-fit:cover;
-
+width:100%;
+height:auto;
+display:block;
+border-radius:15px;
 }
 @media(min-width:1000px){
 
@@ -515,6 +515,8 @@ document.getElementById("particles").appendChild(p);
 /* SEND (заглушка под бота) */
 async function sendOrder() {
 
+console.log("SEND CLICK");
+
   if (cart.length === 0) {
     toast("Корзина пуста");
     return;
@@ -541,15 +543,24 @@ async function sendOrder() {
     })
   });
 
-  if (res.ok) {
-    toast("Заказ отправлен!");
-    cart = [];
-    update();
-    closeCheckout();
-    closeCart();
-  } else {
-    toast("Ошибка отправки");
-  }
+  if(res.ok){
+
+  toast("✅ Заказ оформлен");
+
+  cart = [];
+
+  updateCart();
+
+  closeCheckout();
+
+  closeCart();
+
+  document.getElementById("nick").value = "";
+  document.getElementById("tg").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("comment").value = "";
+
+}
 }
 
 function openCheckout(){
