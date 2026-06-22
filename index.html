@@ -197,10 +197,56 @@ border-radius:50%;
 background:#8f42ff;
 z-index:9999;
 }
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#171717;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:400px;
+}
 </style>
 </head>
 
 <body>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkout-modal" class="modal">
+  <div class="modal-content">
+
+    <h2>Оформление заказа</h2>
+
+    <input id="nick" placeholder="Игровой никнейм" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;border:none;">
+    <input id="tg" placeholder="Telegram (@username)" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;border:none;">
+    <input id="email" placeholder="Почта (необязательно)" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;border:none;">
+    <textarea id="comment" placeholder="Комментарий" style="width:100%;padding:10px;margin-top:10px;border-radius:10px;border:none;"></textarea>
+
+    <div class="payment-box">
+      <b>💳 Оплата:</b><br><br>
+      Банк: Т-Банк<br>
+      Карта: XXXX XXXX XXXX XXXX<br>
+      Получатель: Имя Фамилия<br><br>
+
+      После оплаты отправьте скрин в Telegram:
+      @asssssuna
+    </div>
+
+    <div class="modal-buttons">
+      <button onclick="sendOrder()">Подтвердить заказ</button>
+      <button onclick="closeCheckout()">Закрыть</button>
+    </div>
+
+  </div>
+</div>
 
 <div id="particles"></div>
 
@@ -218,7 +264,7 @@ z-index:9999;
 <h2>Корзина</h2>
 <div id="cart-items"></div>
 <h3>Итого: <span id="cart-total">0</span> ₽</h3>
-<button onclick="sendOrder()">Оформить заказ</button>
+<button onclick="openCheckout()">Оформить заказ</button>
 <button onclick="closeCart()">Закрыть</button>
 </div>
 
@@ -371,11 +417,51 @@ document.getElementById("particles").appendChild(p);
 }
 
 /* SEND (заглушка под бота) */
-async function sendOrder(){
-toast("Заказ отправлен (бот подключён отдельно)");
-cart=[];
-update();
-closeCart();
+async function sendOrder() {
+
+  if (cart.length === 0) {
+    toast("Корзина пуста");
+    return;
+  }
+
+  const nick = document.getElementById("nick").value;
+  const tg = document.getElementById("tg").value;
+  const email = document.getElementById("email").value;
+  const comment = document.getElementById("comment").value;
+
+  let total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+  const res = await fetch("/api/order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      cart,
+      total,
+      nick,
+      tg,
+      email,
+      comment,
+      orderId
+    })
+  });
+
+  if (res.ok) {
+    toast("Заказ отправлен!");
+    cart = [];
+    update();
+    closeCheckout();
+    closeCart();
+  } else {
+    toast("Ошибка отправки");
+  }
+}
+
+function openCheckout(){
+  document.getElementById("checkout-modal").style.display = "flex";
+}
+
+function closeCheckout(){
+  document.getElementById("checkout-modal").style.display = "none";
 }
 </script>
 
