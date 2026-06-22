@@ -347,6 +347,35 @@ font-size:52px;
 }
 
 }
+.img-placeholder{
+width:100%;
+height:120px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:40px;
+
+border-radius:15px;
+
+background:linear-gradient(
+135deg,
+rgba(143,66,255,0.15),
+rgba(255,79,216,0.05)
+);
+
+border:1px dashed rgba(143,66,255,0.4);
+
+margin-bottom:10px;
+
+transition:0.3s;
+}
+
+.card:hover .img-placeholder{
+transform:scale(1.03);
+box-shadow:0 0 20px rgba(143,66,255,0.3);
+}
 </style>
 </head>
 
@@ -464,6 +493,7 @@ SK STORE ©
 
 <div class="card" data-cat="skins">
 <div class="badge">🔥 ХИТ</div>
+<div class="img-placeholder">🎮</div>
 <h3>Deku Fang</h3>
 <div class="price">200 ₽</div>
 <button onclick="add('Deku Fang',200,this)">
