@@ -6,7 +6,12 @@
 <title>SK Store</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
 body{
 background:#090909;
@@ -22,7 +27,11 @@ position:relative;
 border-bottom:2px solid #8f42ff;
 }
 
-.logo{font-size:32px;font-weight:bold;color:#b06bff}
+.logo{
+font-size:32px;
+font-weight:bold;
+color:#b06bff;
+}
 
 .subtitle{color:#ccc}
 
@@ -69,7 +78,6 @@ gap:15px;
 background:#171717;
 padding:15px;
 border-radius:15px;
-transition:.2s;
 border:1px solid #2e2e2e;
 }
 
@@ -77,7 +85,11 @@ border:1px solid #2e2e2e;
 display:none;
 }
 
-.price{color:#b06bff;font-size:20px;margin-top:5px}
+.price{
+color:#b06bff;
+font-size:20px;
+margin-top:5px;
+}
 
 button{
 width:100%;
@@ -174,14 +186,20 @@ border-radius:10px;
 
 <!-- CATEGORIES -->
 <div class="categories">
+
 <div class="category active" onclick="filter('all',this)">Все</div>
 <div class="category" onclick="filter('gems',this)">Гемы</div>
 <div class="category" onclick="filter('passes',this)">Пропуски</div>
+<div class="category" onclick="filter('skins',this)">Скины</div>
+<div class="category" onclick="filter('resources',this)">Ресурсы</div>
+<div class="category" onclick="filter('sales',this)">Акции</div>
+
 </div>
 
 <!-- PRODUCTS -->
 <div class="products">
 
+<!-- GEMS -->
 <div class="card" data-category="gems">
 <h3>30 Gems</h3>
 <div class="price">130 ₽</div>
@@ -194,15 +212,35 @@ border-radius:10px;
 <button onclick="add('80 Gems',250)">В корзину</button>
 </div>
 
+<div class="card" data-category="gems">
+<h3>170 Gems</h3>
+<div class="price">500 ₽</div>
+<button onclick="add('170 Gems',500)">В корзину</button>
+</div>
+
+<!-- PASSES -->
 <div class="card" data-category="passes">
 <h3>Brawl Pass</h3>
 <div class="price">300 ₽</div>
 <button onclick="add('Brawl Pass',300)">В корзину</button>
 </div>
 
+<div class="card" data-category="passes">
+<h3>Brawl Pass Plus</h3>
+<div class="price">650 ₽</div>
+<button onclick="add('Brawl Pass Plus',650)">В корзину</button>
 </div>
 
-<!-- MODAL -->
+<!-- SKINS -->
+<div class="card" data-category="skins">
+<h3>Skin Pack</h3>
+<div class="price">400 ₽</div>
+<button onclick="add('Skin Pack',400)">В корзину</button>
+</div>
+
+</div>
+
+<!-- CHECKOUT MODAL -->
 <div id="checkout" class="modal">
 <div class="modal-content">
 
@@ -211,9 +249,7 @@ border-radius:10px;
 <p>💳 Т-Банк: XXXX XXXX XXXX XXXX</p>
 <p>👤 Получатель: Имя Фамилия</p>
 
-<p style="margin-top:10px">
-После оплаты отправьте скрин и ник в Telegram: @asssssuna
-</p>
+<p>После оплаты отправьте в Telegram: @asssssuna</p>
 
 <button onclick="closeCheckout()">Закрыть</button>
 
@@ -225,6 +261,7 @@ border-radius:10px;
 let cart = [];
 let orderId = Math.floor(1000 + Math.random()*9000);
 
+/* ADD */
 function add(name,price){
 
 let item = cart.find(i=>i.name===name);
@@ -236,10 +273,11 @@ updateCart();
 toast("Добавлено");
 }
 
+/* CART */
 function updateCart(){
 
-let items = document.getElementById("cart-items");
-let total=0, count=0;
+let items=document.getElementById("cart-items");
+let total=0,count=0;
 
 items.innerHTML="";
 
@@ -250,7 +288,7 @@ count+=i.qty;
 items.innerHTML+=`
 <div class="cart-item">
 <div>${i.name}</div>
-<div>${i.qty}x</div>
+<div>${i.qty}</div>
 </div>`;
 });
 
@@ -258,16 +296,7 @@ document.getElementById("cart-total").innerText=total;
 document.getElementById("cart-counter").innerText=count;
 }
 
-function openCart(){
-document.getElementById("cart-panel").classList.add("open");
-document.getElementById("cart-overlay").style.display="block";
-}
-
-function closeCart(){
-document.getElementById("cart-panel").classList.remove("open");
-document.getElementById("cart-overlay").style.display="none";
-}
-
+/* FILTER */
 function filter(cat,el){
 
 document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
@@ -279,9 +308,22 @@ cat==="all" || card.dataset.category===cat ? "block":"none";
 });
 }
 
+/* CART OPEN */
+function openCart(){
+document.getElementById("cart-panel").classList.add("open");
+document.getElementById("cart-overlay").style.display="block";
+}
+
+/* CART CLOSE */
+function closeCart(){
+document.getElementById("cart-panel").classList.remove("open");
+document.getElementById("cart-overlay").style.display="none";
+}
+
+/* SEND */
 async function sendOrder(){
 
-if(cart.length===0){toast("Пусто");return;}
+if(cart.length===0){toast("Корзина пуста");return;}
 
 let total=cart.reduce((s,i)=>s+i.price*i.qty,0);
 
@@ -303,16 +345,18 @@ document.getElementById("checkout").style.display="flex";
 }
 }
 
+/* CLOSE MODAL */
 function closeCheckout(){
 document.getElementById("checkout").style.display="none";
 }
 
-function toast(text){
-let t=document.createElement("div");
-t.className="toast";
-t.innerText=text;
-document.body.appendChild(t);
-setTimeout(()=>t.remove(),1500);
+/* TOAST */
+function toast(t){
+let d=document.createElement("div");
+d.className="toast";
+d.innerText=t;
+document.body.appendChild(d);
+setTimeout(()=>d.remove(),1500);
 }
 
 </script>
