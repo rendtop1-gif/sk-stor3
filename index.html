@@ -559,26 +559,15 @@ alert("sendOrder работает");
   closeCheckout();
   closeCart();
 
-} else {
-
-  toast("❌ Ошибка отправки");
-
-}
-
-  update();
-
-orderId = Math.floor(1000 + Math.random() * 9000);
-
-  closeCheckout();
-
-  closeCart();
-
   document.getElementById("nick").value = "";
   document.getElementById("tg").value = "";
   document.getElementById("email").value = "";
   document.getElementById("comment").value = "";
 
-}
+} else {
+
+  toast("❌ Ошибка отправки");
+
 }
 
 function openCheckout(){
