@@ -18,7 +18,12 @@ background:#090909;
 color:white;
 overflow-x:hidden;
 }
+.container{
 
+max-width:1200px;
+margin:auto;
+
+}
 /* ===== PARTICLES ===== */
 #particles{
 position:fixed;
@@ -107,8 +112,20 @@ transition:.3s;
 border:1px solid #2a2a2a;
 }
 
+.category:hover{
+background:#222;
+border-color:#8f42ff;
+box-shadow:
+0 0 15px rgba(143,66,255,.4);
+}
+
 .category.active{
 background:linear-gradient(135deg,#8f42ff,#b06bff);
+transform:translateY(-2px);
+
+box-shadow:
+0 0 10px rgba(143,66,255,.5),
+0 0 20px rgba(143,66,255,.3);
 }
 
 /* PRODUCTS */
@@ -128,7 +145,16 @@ transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-4px);
+
+transform:translateY(-5px);
+
+border-color:#8f42ff;
+
+box-shadow:
+0 0 15px rgba(143,66,255,.4),
+0 0 35px rgba(143,66,255,.25),
+0 0 60px rgba(255,79,216,.1);
+
 }
 
 .card.hide{
@@ -214,10 +240,79 @@ z-index:9999;
   width:90%;
   max-width:400px;
 }
+.cart-icon{
+
+animation:cartPulse 3s infinite;
+
+}
+@keyframes cartPulse{
+
+0%,100%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+box-shadow:
+0 0 20px #8f42ff;
+}
+
+}
+.logo{
+
+font-size:52px;
+font-weight:900;
+letter-spacing:3px;
+
+}
+.background-logo{
+
+position:fixed;
+
+bottom:20px;
+right:20px;
+
+font-size:140px;
+font-weight:900;
+
+color:rgba(255,255,255,0.02);
+
+pointer-events:none;
+z-index:-2;
+
+user-select:none;
+
+}
+.banner{
+
+max-width:1100px;
+margin:20px auto;
+
+}
+.banner img{
+
+max-height:350px;
+object-fit:cover;
+
+}
+@media(min-width:1000px){
+
+.background-logo{
+font-size:250px;
+}
+
+}
 </style>
 </head>
 
 <body>
+
+<div class="background-logo">
+SK STORE ©
+</div>
+
+<div class="container">
+</div>
 
 <!-- CHECKOUT MODAL -->
 <div id="checkout-modal" class="modal">
@@ -233,8 +328,8 @@ z-index:9999;
     <div class="payment-box">
       <b>💳 Оплата:</b><br><br>
       Банк: Т-Банк<br>
-      Карта: XXXX XXXX XXXX XXXX<br>
-      Получатель: Имя Фамилия<br><br>
+      Карта: 2200 7019 6807 3814<br>
+      Получатель: Кирилл.С<br><br>
 
       После оплаты отправьте скрин в Telegram:
       @asssssuna
@@ -278,6 +373,7 @@ z-index:9999;
 <div class="category active" onclick="filter('all',this)">Все</div>
 <div class="category" onclick="filter('gems',this)">Гемы</div>
 <div class="category" onclick="filter('passes',this)">Пропуски</div>
+<div class="category" onclick="filterProducts('skins', this)">Скины</div>
 <div class="category" onclick="filter('resources',this)">Ресурсы</div>
 <div class="category" onclick="filter('sales',this)">Акции</div>
 </div>
@@ -466,4 +562,5 @@ function closeCheckout(){
 </script>
 
 </body>
+
 </html>
