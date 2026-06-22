@@ -452,6 +452,24 @@ box-shadow:0 0 20px rgba(143,66,255,0.3);
   display:block;
   border-radius:12px;
 }
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(143,66,255,0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(143,66,255,0.7),
+                0 0 50px rgba(255,79,216,0.2);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(143,66,255,0.3);
+    transform: scale(1);
+  }
+}
+.card.top {
+  animation: pulseGlow 2.2s infinite ease-in-out;
+}
 </style>
 </head>
 
@@ -549,7 +567,7 @@ SK STORE ©
 <!-- PRODUCTS -->
 <div class="products">
 
-<div class="card" data-cat="gems">
+<div class="card top" data-cat="gems">
 <div class="badge">🔥 очко даедрика</div>
 <img src="https://i.ibb.co/4ZrSD4p9/IMG-20260516-212304-727.jpg" class="product-img">
 <h3>30 Gems</h3>
@@ -573,7 +591,7 @@ SK STORE ©
 <button onclick="add('Brawl Pass',300,this)">В корзину</button>
 </div>
 
-<div class="card" data-cat="skins">
+<div class="card top" data-cat="skins">
 <div class="badge">🔥 ХИТ</div>
 <img src="https://i.ibb.co/4ZrSD4p9/IMG-20260516-212304-727.jpg" class="product-img">
 <h3>Deku Fang</h3>
@@ -583,7 +601,7 @@ SK STORE ©
 </button>
 </div>
 
-<div class="card" data-cat="skins">
+<div class="card top" data-cat="skins">
 <div class="badge new">NEW</div>
 <img src="https://i.ibb.co/4ZrSD4p9/IMG-20260516-212304-727.jpg" class="product-img">
 <h3>Super Striker Lou</h3>
