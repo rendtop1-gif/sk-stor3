@@ -704,6 +704,27 @@ async function sendOrder() {
     toast("Ошибка отправки");
   }
 }
+function toast(text){
+
+  const t = document.createElement("div");
+
+  t.innerText = text;
+
+  t.style.position = "fixed";
+  t.style.bottom = "20px";
+  t.style.left = "50%";
+  t.style.transform = "translateX(-50%)";
+  t.style.background = "#8f42ff";
+  t.style.padding = "10px 20px";
+  t.style.borderRadius = "10px";
+  t.style.zIndex = "9999";
+
+  document.body.appendChild(t);
+
+  setTimeout(()=>{
+    t.remove();
+  },2000);
+}
 </script>
 
 </body>
