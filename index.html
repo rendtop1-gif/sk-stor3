@@ -376,6 +376,16 @@ transition:0.3s;
 transform:scale(1.03);
 box-shadow:0 0 20px rgba(143,66,255,0.3);
 }
+.card{
+  opacity:0;
+  transform:translateY(20px) scale(0.98);
+  transition:opacity .4s ease, transform .4s ease;
+}
+
+.card.show{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
 </style>
 </head>
 
@@ -576,15 +586,38 @@ document.getElementById("cart-panel").classList.remove("open");
 document.getElementById("cart-overlay").style.display="none";
 }
 
-function filter(cat,el){
+function filter(cat, el){
 
-document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
-el.classList.add("active");
+  document.querySelectorAll(".category")
+    .forEach(c => c.classList.remove("active"));
 
-document.querySelectorAll(".card").forEach(c=>{
-let show = cat==="all" || c.dataset.cat===cat;
-c.style.display = show?"block":"none";
-});
+  el.classList.add("active");
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((c, i) => {
+
+    const show = cat === "all" || c.dataset.cat === cat;
+
+    if(show){
+
+      c.style.display = "block";
+
+      setTimeout(() => {
+        c.classList.add("show");
+      }, i * 60);
+
+    } else {
+
+      c.classList.remove("show");
+
+      setTimeout(() => {
+        c.style.display = "none";
+      }, 200);
+
+    }
+
+  });
 }
 
 function fly(btn){
@@ -725,6 +758,15 @@ function closeSuccess(){
 document.getElementById("success-modal").style.display = "none";
 
 }
+window.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add("show");
+    }, i * 80); // задержка по очереди
+  });
+});
 </script>
 
 </body>
