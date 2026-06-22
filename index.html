@@ -336,8 +336,10 @@ SK STORE ©
     </div>
 
     <div class="modal-buttons">
-      <button onclick="sendOrder()">Подтвердить заказ</button>
-      <button onclick="closeCheckout()">Закрыть</button>
+<button onclick="sendOrder()">
+ Подтвердить заказ
+</button>
+<button onclick="closeCheckout()">Закрыть</button>
     </div>
 
   </div>
@@ -515,7 +517,7 @@ document.getElementById("particles").appendChild(p);
 /* SEND (заглушка под бота) */
 async function sendOrder() {
 
-console.log("SEND CLICK");
+alert("sendOrder работает");
 
   if (cart.length === 0) {
     toast("Корзина пуста");
