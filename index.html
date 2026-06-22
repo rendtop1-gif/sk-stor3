@@ -516,9 +516,8 @@ document.getElementById("particles").appendChild(p);
 
 /* SEND (заглушка под бота) */
 let orderId = Math.floor(1000 + Math.random() * 9000);
-async function sendOrder() {
 
-alert("sendOrder работает");
+async function sendOrder() {
 
   if (cart.length === 0) {
     toast("Корзина пуста");
@@ -534,7 +533,9 @@ alert("sendOrder работает");
 
   const res = await fetch("/api/order", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       cart,
       total,
@@ -546,28 +547,28 @@ alert("sendOrder работает");
     })
   });
 
-  if(res.ok){
+  if (res.ok) {
 
-  toast("✅ Заказ оформлен");
+    toast("✅ Заказ оформлен");
 
-  cart = [];
+    cart = [];
+    update();
 
-  update();
+    document.getElementById("nick").value = "";
+    document.getElementById("tg").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("comment").value = "";
 
-  orderId = Math.floor(1000 + Math.random() * 9000);
+    orderId = Math.floor(1000 + Math.random() * 9000);
 
-  closeCheckout();
-  closeCart();
+    closeCheckout();
+    closeCart();
 
-  document.getElementById("nick").value = "";
-  document.getElementById("tg").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("comment").value = "";
+  } else {
 
-} else {
+    toast("❌ Ошибка отправки");
 
-  toast("❌ Ошибка отправки");
-
+  }
 }
 
 function openCheckout(){
