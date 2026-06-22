@@ -375,7 +375,7 @@ SK STORE ©
 <div class="category active" onclick="filter('all',this)">Все</div>
 <div class="category" onclick="filter('gems',this)">Гемы</div>
 <div class="category" onclick="filter('passes',this)">Пропуски</div>
-<div class="category" onclick="filterProducts('skins', this)">Скины</div>
+<div class="category" onclick="filter('skins', this)">Скины</div>
 <div class="category" onclick="filter('resources',this)">Ресурсы</div>
 <div class="category" onclick="filter('sales',this)">Акции</div>
 </div>
@@ -515,6 +515,7 @@ document.getElementById("particles").appendChild(p);
 }
 
 /* SEND (заглушка под бота) */
+let orderId = Math.floor(1000 + Math.random() * 9000);
 async function sendOrder() {
 
 alert("sendOrder работает");
@@ -551,7 +552,22 @@ alert("sendOrder работает");
 
   cart = [];
 
-  updateCart();
+  update();
+
+  orderId = Math.floor(1000 + Math.random() * 9000);
+
+  closeCheckout();
+  closeCart();
+
+} else {
+
+  toast("❌ Ошибка отправки");
+
+}
+
+  update();
+
+orderId = Math.floor(1000 + Math.random() * 9000);
 
   closeCheckout();
 
