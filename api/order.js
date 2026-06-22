@@ -10,16 +10,18 @@ export default async function handler(req, res) {
 
   let text = `🛒 НОВЫЙ ЗАКАЗ #${orderId}\n\n`;
 
-  text += `🎮 Ник: ${nick}\n`;
-  text += `💬 TG: ${tg}\n`;
-  text += `📧 Email: ${email}\n`;
-  text += `📝 Комментарий: ${comment}\n\n`;
+text += `🎮 Ник: ${nick || "-"}\n`;
+text += `💬 Telegram: ${tg || "-"}\n`;
+text += `📧 Почта: ${email || "-"}\n`;
+text += `📝 Комментарий: ${comment || "-"}\n\n`;
 
-  cart.forEach(i => {
-    text += `• ${i.name} x${i.qty} = ${i.price * i.qty}₽\n`;
-  });
+text += `📦 ТОВАРЫ:\n`;
 
-  text += `\n💰 ИТОГО: ${total}₽`;
+cart.forEach(i => {
+  text += `• ${i.name} ×${i.qty} = ${i.price * i.qty}₽\n`;
+});
+
+text += `\n💰 ИТОГО: ${total}₽`;
 
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
