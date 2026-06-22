@@ -367,9 +367,98 @@ transform:translateY(-120px) translateX(60px);
 opacity:0;
 }
 }
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#171717;
+  padding:20px;
+  border-radius:20px;
+  width:90%;
+  max-width:400px;
+  border:1px solid #8f42ff;
+  animation:pop .2s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.9);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+.payment-box{
+  background:#222;
+  padding:15px;
+  border-radius:15px;
+  margin-top:10px;
+}
+
+.modal-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:15px;
+}
 </style>
 
 </head>
+
+<div id="checkout-modal" class="modal">
+  <div class="modal-content">
+
+    <h2>Оформление заказа</h2>
+
+    <p id="order-text">
+      Заказ #0000 успешно создан
+    </p>
+
+    <div class="payment-box">
+
+      <h3>💳 Реквизиты для оплаты</h3>
+
+      <p>
+        Банк: Т-Банк<br>
+        Номер карты:<br>
+        <b>XXXX XXXX XXXX XXXX</b><br><br>
+
+        Получатель:<br>
+        <b>Имя Фамилия</b>
+      </p>
+
+      <hr>
+
+      <p>
+        После оплаты отправьте:<br><br>
+
+        📸 Скриншот оплаты<br>
+        🎮 Игровую почту<br>
+        🧾 Номер заказа
+      </p>
+
+      <p style="margin-top:10px;">
+        👉 Telegram: <b>@asssssuna</b>
+      </p>
+
+    </div>
+
+    <div class="modal-buttons">
+
+      <a href="https://t.me/asssssuna" target="_blank">
+        <button>Открыть Telegram</button>
+      </a>
+
+      <button onclick="closeCheckout()">Закрыть</button>
+
+    </div>
+
+  </div>
+</div>
 
 <body>
 
@@ -724,6 +813,19 @@ function toast(text){
   setTimeout(()=>{
     t.remove();
   },2000);
+}
+let orderId = Math.floor(1000 + Math.random() * 9000);
+
+function openCheckout(){
+
+  document.getElementById("checkout-modal").style.display = "flex";
+
+  document.getElementById("order-text").innerHTML =
+    `Заказ #${orderId} успешно создан`;
+}
+
+function closeCheckout(){
+  document.getElementById("checkout-modal").style.display = "none";
 }
 
 </script>
